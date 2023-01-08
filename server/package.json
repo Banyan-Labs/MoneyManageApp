@@ -1,7 +1,6 @@
 {
-  "name": "backend",
+  "name": "server",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -15,5 +14,14 @@
     "express": "^4.18.2",
     "mongodb": "^4.13.0",
     "mongoose": "^6.8.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Banyan-Labs/MoneyManageApp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Banyan-Labs/MoneyManageApp/issues"
+  },
+  "homepage": "https://github.com/Banyan-Labs/MoneyManageApp#readme",
+  "description": ""
 }

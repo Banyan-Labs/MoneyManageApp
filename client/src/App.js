@@ -1,7 +1,4 @@
 import './App.css';
-
-import Login from './Components/login/Login';
-
 import Layout from './Components/Layout';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './Components/login/Login';
