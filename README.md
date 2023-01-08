@@ -153,8 +153,6 @@ The `"start:client"` script may look a little weird because of the `--prefix` fl
 
 ## Development
 
-
-
 [client package scripts]: ./assets/snippet1.png "~/client/package.json"
 [server package scripts]: ./assets/snippet2.png "~/server/package.json"
 [root package scripts]: ./assets/snippet3.png "~/package.json"
