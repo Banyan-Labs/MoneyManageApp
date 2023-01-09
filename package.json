@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
     "start:client": "npm run start --prefix client",
     "start:server": "npm run dev --prefix server",
     "prepare": "husky install",
@@ -23,9 +24,9 @@
     "server"
   ],
   "devDependencies": {
+    "concurrently": "^7.6.0",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.28.0",

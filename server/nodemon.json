@@ -2,6 +2,6 @@
     "verbose": true,
     "ignore": ["*.test.js"],
     "watch": ["src"],
-    "ext": "js",
+    "ext": "js,json",
     "delay": "2"
 }
