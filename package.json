@@ -1,0 +1,44 @@
+{
+  "name": "moneymanageapp",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
+    "start:client": "npm run start --prefix client",
+    "start:server": "npm run dev --prefix server",
+    "prepare": "husky install",
+    "lint": "npm run lint --workspaces --if-present"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Banyan-Labs/MoneyManageApp.git"
+  },
+  "author": "BanyanLabs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Banyan-Labs/MoneyManageApp/issues"
+  },
+  "homepage": "https://github.com/Banyan-Labs/MoneyManageApp#readme",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.1.0"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx}": [
+      "npm run lint",
+      "npm run prettier --workspaces --if-present",
+      "npm run lint-dry-run --workspaces --if-present"
+    ]
+  }
+}
