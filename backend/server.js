@@ -11,7 +11,7 @@ const mongoose = require("mongoose");
 // app.use(cors(corsOptions));
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 const db = process.env.DB
 
 require("./config.js/user.config");

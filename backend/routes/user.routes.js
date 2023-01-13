@@ -6,6 +6,6 @@ const Controller = require('../controllers/user.controller');
 
 
 module.exports = app => {
-    app.patch("/api/Register", Controller.checkDuplicateEmail)
+    app.post("/api/register", Controller.checkDuplicateEmail)
    
 }
