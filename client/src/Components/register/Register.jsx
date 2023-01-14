@@ -30,7 +30,10 @@ const Register = () => {
           // // navigate(`/Login`);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setMessage(`${err.code}\n${err.response.data.message}`);
+      });
     // // handleModalChange(e);
   };
 
@@ -45,7 +48,7 @@ const Register = () => {
         <h5>Create An Account</h5>
         <input
           type="text"
-          name="fname"
+          name="firstName"
           onChange={(e) => handleFormInput(e)}
           placeholder="First Name"
           required
@@ -54,7 +57,7 @@ const Register = () => {
         <br />
         <input
           type="text"
-          name="lname"
+          name="lastName"
           onChange={(e) => handleFormInput(e)}
           placeholder="Last Name"
           required
@@ -85,9 +88,9 @@ const Register = () => {
         <br />
         <input
           type="password"
-          id="psw"
+          id="confirmPassword"
           onChange={(e) => handleFormInput(e)}
-          name="psw"
+          name="confirmPassword"
           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
           title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
           placeholder="Password"
