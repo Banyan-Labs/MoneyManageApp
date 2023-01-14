@@ -1,39 +1,62 @@
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
-const userRoutes = require('./routes/user.routes');
+const http = require('http');
+const app = require('./app');
+const config = require('./configs');
 
-const app = express();
+// Normalize a port into a number, string, or false.
+function normalizePort(val) {
+  const port = parseInt(val, 10);
 
-const PORT = process.env.PORT || 8080;
+  if (Number.isNaN(port)) {
+    // named pipe
+    return val;
+  }
 
-const db = process.env.DB;
+  if (port >= 0) {
+    // port number
+    return port;
+  }
 
-/**
- * * Server middleware
- * TODO: extract middleware to separate location
- */
-// init Cross Origin Resource Sharing
-app.use(cors());
+  return false;
+}
 
-// init built in body parser (allows for request body json format)
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// Get port from environment and store in Express.
+const port = normalizePort(config.PORT || '3000');
+app.set('port', port);
 
-// init connection to MongoDB cluster
-mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true }, () =>
-  console.log('Connected to MongoDB')
-);
+// Create the HTTP server
+const server = http.createServer(app);
 
-// applies userRoutes
-app.use(userRoutes);
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
 
-// testing route
-// ping '/test' to confirm server is responding
-app.get('/test', (req, res) => {
-  res.send('Hello World');
-});
+  const bind = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`;
 
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(`${bind} requires elevated privileges`); // eslint-disable-line no-console
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(`${bind} is already in use`); // eslint-disable-line no-console
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
 
-module.exports = app;
+function onListening() {
+  const addr = server.address();
+  const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+  console.log(`Listening on ${bind} in ${config.NODE_ENV}`); // eslint-disable-line no-console
+}
+
+// Listen on provided port, on all network interfaces.
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+module.exports = server;

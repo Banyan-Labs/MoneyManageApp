@@ -45,11 +45,6 @@ module.exports = {
   },
   loginUser: async (request, response, next) => {
     const { email, password } = request.body;
-    console.log(
-      '🚀 ~ file: user.controller.js:72 ~ loginUser: ~ password',
-      password
-    );
-
     try {
       if (!email || !password) {
         // respond 400 if missing request body fields
@@ -57,20 +52,13 @@ module.exports = {
         next();
       } else {
         const user = await User.findOne({ email });
-        console.log(
-          '🚀 ~ file: user.controller.js:88 ~ loginUser: ~ user',
-          user
-        );
+
         if (!user) {
           // respond 404 if user does not exist
           response.status(404).json({ message: 'User does not exist' });
           next();
         } else {
           const validPassword = bcrypt.compareSync(password, user.password);
-          console.log(
-            '🚀 ~ file: user.controller.js:90 ~ loginUser: ~ validPassword',
-            validPassword
-          );
           if (!validPassword) {
             // respond 400 if password is incorrect
             response.status(400).json({ message: 'Incorrect password' });
