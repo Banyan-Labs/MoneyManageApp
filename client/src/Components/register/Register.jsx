@@ -2,13 +2,13 @@ import './Register.css';
 import React, { useState } from 'react';
 import Logo from '../../moneyManLogo1.png';
 import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
+// // import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   // // const [name, setName] = useState("");
   // // setName('Owen')
   const [formState, setFormState] = useState({});
-  // const navigate = useNavigate();
+  // // const navigate = useNavigate();
   const [message, setMessage] = useState('');
   const handleFormInput = (e) => {
     setFormState({
@@ -27,11 +27,11 @@ const Register = () => {
           setMessage('Please fill out all required fields');
         } else {
           setMessage('User Created');
-          // navigate(`/Login`);
+          // // navigate(`/Login`);
         }
       })
       .catch((err) => console.log(err));
-    // handleModalChange(e);
+    // // handleModalChange(e);
   };
 
   return (
@@ -95,7 +95,7 @@ const Register = () => {
         />
         <br />
         <br />
-        <button type="button" className="button" onClick={handleSubmit()}>
+        <button type="button" className="button" onClick={handleSubmit}>
           SIGN UP
         </button>
         <p>
