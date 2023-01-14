@@ -1,49 +1,89 @@
 // // const config = require('../config/auth.config');
+const bcrypt = require('bcrypt');
 const CreateUser = require('../models/user.model');
 
-const User = CreateUser.user;
-
-// // const bcrypt = require('bcryptjs');
+const User = CreateUser;
 
 module.exports = {
-  // eslint-disable-next-line consistent-return
-  checkDuplicateEmail: async (req, res) => {
+  registerNewUser: async (request, response, next) => {
     try {
-      const emailRequest = await User.findOne({
-        where: {
-          email: req.body.email,
-        },
-      });
-      if (emailRequest) {
-        return res.status(400).send({
-          message: 'Error! Email is already on an account',
+      const { firstName, lastName, email, password, confirmPassword } =
+        request.body;
+      if (!firstName || !lastName || !email || !password || !confirmPassword) {
+        // respond 400 if missing request body fields
+        response.status(400).json({ message: 'Please fill all the fields' });
+        next();
+      } else if (password !== confirmPassword) {
+        // respond 400 if passwords do not match
+        response.status(400).json({ message: 'Passwords do not match' });
+        next();
+      } else {
+        const doesExist = await User.findOne({
+          email: request.body.email,
         });
+        if (doesExist) {
+          // respond 400 if email already exists
+          response.status(400).json({ message: 'Email is already registered' });
+          next();
+        } else {
+          const salt = await bcrypt.genSalt(10);
+          const hash = await bcrypt.hash(password, salt);
+          const newUser = await User.create({
+            firstName,
+            lastName,
+            email,
+            password: hash,
+          });
+          response.status(201).json(newUser);
+          next();
+        }
       }
-      // // } else {
-      //  // CreateUser.create(req.body).then((data) => res.json(data)),
-      //  //   (err) => console.error(''),
-      //  //   CreateUser.save()
-      //  //     .then((res) => console.log('User Created', res))
-      //  //     .catch((err) => console.log(err));
-      // // }
-      return res.status(200);
-    } catch {
-      // //   (err) => console.log(err);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+  loginUser: async (request, response, next) => {
+    const { email, password } = request.body;
+    console.log(
+      '🚀 ~ file: user.controller.js:72 ~ loginUser: ~ password',
+      password
+    );
+
+    try {
+      if (!email || !password) {
+        // respond 400 if missing request body fields
+        response.status(400).json({ message: 'Please fill all the fields' });
+        next();
+      } else {
+        const user = await User.findOne({ email });
+        console.log(
+          '🚀 ~ file: user.controller.js:88 ~ loginUser: ~ user',
+          user
+        );
+        if (!user) {
+          // respond 404 if user does not exist
+          response.status(404).json({ message: 'User does not exist' });
+          next();
+        } else {
+          const validPassword = bcrypt.compareSync(password, user.password);
+          console.log(
+            '🚀 ~ file: user.controller.js:90 ~ loginUser: ~ validPassword',
+            validPassword
+          );
+          if (!validPassword) {
+            // respond 400 if password is incorrect
+            response.status(400).json({ message: 'Incorrect password' });
+            next();
+          } else {
+            response.status(200).json(user);
+            next();
+          }
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
   },
 };
-
-// // const user = new User({
-// //     firstName: req.body.fname,
-// //     lastName: req.body.lname,
-// //     email: req.body.email,
-// //     password: bcrypt.hashSync(req.body.password, 8),
-// //     confirmPassword: bcrypt.hashSync(req.body.confirmPassword, 8)
-// // });
-
-// // user.save((err,user) => {
-// //     if (err) {
-// //         res.status(500).send({message: err});
-// //         return;
-// //     }
-// // })
