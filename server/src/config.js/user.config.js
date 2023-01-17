@@ -1,7 +1,8 @@
-require("dotenv").config();
+//  //
 
 const mongoose = require('mongoose');
-const db = "money-Managed-Project"
+
+const db = 'money-Managed-Project';
 
 mongoose
   .connect(process.env.DB, {
